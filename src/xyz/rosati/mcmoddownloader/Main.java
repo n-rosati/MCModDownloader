@@ -1,4 +1,4 @@
-package mcmoddownlaoder;
+package xyz.rosati.mcmoddownloader;
 
 public class Main {
     public static void main(String[] args) {

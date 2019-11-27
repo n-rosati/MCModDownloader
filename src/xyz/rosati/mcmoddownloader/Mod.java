@@ -1,4 +1,4 @@
-package mcmoddownlaoder;
+package xyz.rosati.mcmoddownloader;
 
 public class Mod {
     public Mod() {
