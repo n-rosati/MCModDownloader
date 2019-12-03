@@ -2,6 +2,10 @@ plugins {
     id 'java-library'
 }
 
+dependencies {
+    compile 'org.jsoup:jsoup:1.12.1'
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -27,8 +31,8 @@ sourceSets {
 }
 
 
-dependencies {
-    testCompile "junit:junit:4.8.2"
+test {
+    useJUnitPlatform()
 }
 
 jar {
