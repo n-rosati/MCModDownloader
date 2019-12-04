@@ -23,6 +23,8 @@ public class Downloader {
 
         String modURL = Converter.toFCDN(projectFileURL, getFileName(projectFileURL));
 
+        System.out.println(modURL);
+
         //TODO: Download the mod file
     }
 
