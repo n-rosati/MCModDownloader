@@ -6,23 +6,22 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the destination for the mods: ");
-//        ModManager modManager = new ModManager(sc.next());
-        ModManager modManager = new ModManager("C:\\Users\\Nicholas\\Desktop");
+        ModManager modManager = new ModManager(sc.next());
 
-        System.out.println("This tool takes in URLs from CurseForge in the format `https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567`.\nEnter `stop` to stop downloading mods.");
+        System.out.println("This tool uses the file page of a CurseForge project.\n" +
+                           "Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567.\n" +
+                           "Enter `stop` to stop downloading mods.");
 
         String input;
-        boolean exit = false;
-//        do {
-//            input = sc.next();
-            input = "https://www.curseforge.com/minecraft/mc-mods/jei/files/2803400";
-            if (input.equals("stop")) { exit = true; }
+        do {
+            input = sc.next();
+            if (input.equals("stop")) { System.exit(0); }
 
             try {
                 modManager.download(input);
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("Error downloading that mod.\n" + e.toString());
             }
-//        } while (!exit);
+        } while (true);
     }
 }
