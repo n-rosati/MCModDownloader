@@ -2,12 +2,10 @@ package xyz.rosati.mcmoddownloader;
 
 public class ModManager {
     private Downloader downloader;
-    private Converter converter;
     private String destLocation;
 
     public ModManager(String destination) {
         this.downloader = new Downloader();
-        this.converter = new Converter();
         this.destLocation = destination;
     }
 

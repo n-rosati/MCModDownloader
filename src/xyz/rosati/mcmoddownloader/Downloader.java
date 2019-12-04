@@ -8,11 +8,8 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Downloader {
-    private Converter converter;
 
-    public Downloader() {
-        this.converter = new Converter();
-    }
+    public Downloader() {}
 
     /**
      * Downloads a mod from CurseForge
@@ -22,12 +19,12 @@ public class Downloader {
      * @throws IOException Thrown if network error when downloading the mod.
      */
     public void download(String projectFileURL, String destFilePath) throws Exception, IOException {
-        String filename;
         if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL was given."); }
 
-        filename = getFileName(projectFileURL);
+        String filename = getFileName(projectFileURL);
+        String modURL = Converter.toFCDN(projectFileURL, filename);
 
-        System.out.println("filename: " + filename);
+        System.out.println("url: " + modURL);
     }
 
     /**
@@ -36,8 +33,7 @@ public class Downloader {
      * @return True if valid, false if invalid
      */
     private boolean validateProjectFileURL(String url) {
-        System.out.println(url);
-        return Pattern.matches("^https://(www\\.)?curseforge\\.com/minecraft/mc-mods/[A-Za-z0-9_-]+/files/[0-9]+", url);
+        return Pattern.matches("^https://(www\\.)?curseforge\\.com/minecraft/mc-mods/[A-Za-z0-9_-]+/files/[0-9]+(/)?", url);
     }
 
     /**

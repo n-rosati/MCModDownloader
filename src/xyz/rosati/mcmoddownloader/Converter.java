@@ -2,10 +2,10 @@ package xyz.rosati.mcmoddownloader;
 
 import java.util.regex.Pattern;
 
-public class Converter {
-    private static String FORGECDN_BASE = "https://media.forgecdn.com/files/";
+public final class Converter {
+    private static String FORGECDN_BASE = "https://media.forgecdn.net/files/";
 
-    public Converter() {}
+    private Converter() {}
 
     /**
      * Given a CurseForge <b>file</b> URL, convert it to the associated ForgeCDN URL.<br>
@@ -13,8 +13,8 @@ public class Converter {
      * @param originalURL The CurseForge file URL
      * @return The ForgeCDN link to the inputted file.
      */
-    public String CFtoFCDN(String originalURL, String filename) throws Exception{
-        final String REGEX = "^https:\\/\\/(www\\.)?curseforge\\.com\\/minecraft\\/mc-mods\\/[A-Za-z0-9_-]+\\/files\\/[0-9]+";
+    public static String toFCDN (String originalURL, String filename) throws Exception{
+        final String REGEX = "^https://(www\\.)?curseforge\\.com/minecraft/mc-mods/[A-Za-z0-9_-]+/files/[0-9]+";
         //Test if the given file URL is valid
         if (!Pattern.matches(REGEX, originalURL)) { throw new Exception("URL not valid."); }
 
