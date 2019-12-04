@@ -22,7 +22,7 @@ public final class Converter {
         convertedURL.append(FORGECDN_BASE);
 
         //TODO: Make this cleaner. It works but it feels hacky
-        char[] fileID = {0,0,0,0,0,0,0,0,0,0,0,0};
+        char[] fileID = {0,0,0,0,0,0,0,0};
         originalURL.getChars(originalURL.lastIndexOf('/') + 1, originalURL.length(), fileID, 0);
         for (int i = 0; i < 7; ++i) {
             if (i == 4) convertedURL.append('/');

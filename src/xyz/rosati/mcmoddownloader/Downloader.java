@@ -4,12 +4,25 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Downloader {
+    private static HashMap<String, String> HEADERS = new HashMap<>();
 
-    public Downloader() {}
+
+    public Downloader() {
+        //Put the header information into a HashMap for use when connecting to CurseForge
+        HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        HEADERS.put("Accept-Language", "en-US,en;q=0.5");
+        HEADERS.put("Accept-Encoding", "gzip, deflate, br");
+        HEADERS.put("Pragma", "no-cache");
+        HEADERS.put("Cache-Control", "no-cache");
+    }
 
     /**
      * Downloads a mod from CurseForge
@@ -20,12 +33,16 @@ public class Downloader {
      */
     public void download(String projectFileURL, String destFilePath) throws Exception, IOException {
         if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL was given."); }
+        if (!destFilePath.endsWith("/")) { destFilePath += ("/"); }
 
-        String modURL = Converter.toFCDN(projectFileURL, getFileName(projectFileURL));
+        String filename = getFileName(projectFileURL);
+        String modURL = Converter.toFCDN(projectFileURL, filename);
 
-        System.out.println(modURL);
-
-        //TODO: Download the mod file
+        try (InputStream in = new URL(modURL).openStream()){
+            Files.copy(in, Paths.get(destFilePath + filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -44,15 +61,8 @@ public class Downloader {
      * @throws IOException Thrown if errors occurs when sending GET request
      */
     private String getFileName(String projectFileURL) throws IOException {
-        //Put the header information into a HashMap for use when connecting to CurseForge
-        HashMap<String, String> header = new HashMap<>();
-        header.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        header.put("Accept-Language", "en-US,en;q=0.5");
-        header.put("Accept-Encoding", "gzip, deflate, br");
-        header.put("Pragma", "no-cache");
-        header.put("Cache-Control", "no-cache");
         //Get HTML of the mod version's project page
-        Document doc = Jsoup.connect(projectFileURL).headers(header).get();
+        Document doc = Jsoup.connect(projectFileURL).headers(HEADERS).get();
         //Select the class containing the file name and return it
         return doc.select("h3[class=\"text-primary-500 text-lg\"]").first().text();
     }

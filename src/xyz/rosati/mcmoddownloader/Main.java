@@ -9,11 +9,12 @@ public class Main {
         ModManager modManager = new ModManager(sc.next());
 
         System.out.println("This tool uses the file page of a CurseForge project.\n" +
-                           "Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567.\n" +
-                           "Enter `stop` to stop downloading mods.");
+                                   "Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567.\n" +
+                                   "Enter `stop` to stop downloading mods.");
 
         String input;
         do {
+            System.out.print("> ");
             input = sc.next();
             if (input.equalsIgnoreCase("stop")) {
                 System.out.println("Exiting...");
@@ -24,7 +25,10 @@ public class Main {
                 modManager.download(input);
             } catch (Exception e) {
                 System.out.println("Error downloading that mod.\n" + e.toString());
+                continue;
             }
+
+            System.out.println("Done!");
         } while (true);
     }
 }

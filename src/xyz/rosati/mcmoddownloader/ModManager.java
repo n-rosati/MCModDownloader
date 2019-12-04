@@ -21,4 +21,12 @@ public class ModManager {
             throw new Exception("Error downloading from ForgeCDN.\n" + de);
         }
     }
+
+    /**
+     * Sets the download location.
+     * @param destLocation Path to the desired download location
+     */
+    public void setDestLocation(String destLocation) {
+        this.destLocation = destLocation;
+    }
 }
