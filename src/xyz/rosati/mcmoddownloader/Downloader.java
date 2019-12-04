@@ -36,14 +36,9 @@ public class Downloader {
     private String getFileName(String projectFileURL) throws IOException {
         //Put the header information into a hashmap for use when connecting to CurseForge
         HashMap<String, String> header = new HashMap<>();
-        header.put("Host", "www.curseforge.com");
-        header.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0");
         header.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         header.put("Accept-Language", "en-US,en;q=0.5");
         header.put("Accept-Encoding", "gzip, deflate, br");
-        header.put("Connection", "keep-alive");
-        header.put("Upgrade-Insecure-Requests", "1");
-        header.put("Cookie-Installing-Permission", "required");
         header.put("Pragma", "no-cache");
         header.put("Cache-Control", "no-cache");
         //Get HTML of the mod version's project page
