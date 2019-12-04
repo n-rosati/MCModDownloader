@@ -15,7 +15,10 @@ public class Main {
         String input;
         do {
             input = sc.next();
-            if (input.equals("stop")) { System.exit(0); }
+            if (input.equals("stop")) {
+                System.out.println("Exiting...");
+                System.exit(0);
+            }
 
             try {
                 modManager.download(input);
