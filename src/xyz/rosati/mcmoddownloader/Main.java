@@ -15,7 +15,7 @@ public class Main {
         String input;
         do {
             input = sc.next();
-            if (input.equals("stop")) {
+            if (input.equalsIgnoreCase("stop")) {
                 System.out.println("Exiting...");
                 System.exit(0);
             }
