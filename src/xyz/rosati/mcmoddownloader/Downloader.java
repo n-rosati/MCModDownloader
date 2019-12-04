@@ -21,10 +21,9 @@ public class Downloader {
     public void download(String projectFileURL, String destFilePath) throws Exception, IOException {
         if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL was given."); }
 
-        String filename = getFileName(projectFileURL);
-        String modURL = Converter.toFCDN(projectFileURL, filename);
+        String modURL = Converter.toFCDN(projectFileURL, getFileName(projectFileURL));
 
-        System.out.println("url: " + modURL);
+        //TODO: Download the mod file
     }
 
     /**
