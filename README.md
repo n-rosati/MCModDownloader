@@ -6,5 +6,5 @@
 3) Repeat step 2 as many times as needed.
 4) Enter `stop` to end the program.
 
-##License
+## License
 This project is licensed under the GNU GPLv3 license.
