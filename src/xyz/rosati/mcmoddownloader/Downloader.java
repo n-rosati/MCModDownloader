@@ -33,16 +33,14 @@ public class Downloader {
      */
     public void download(String projectFileURL, String destFilePath) throws Exception, IOException {
         if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL was given."); }
+        //TODO: Validate the given path
         if (!destFilePath.endsWith("/")) { destFilePath += ("/"); }
 
         String filename = getFileName(projectFileURL);
         String modURL = Converter.toFCDN(projectFileURL, filename);
 
-        try (InputStream in = new URL(modURL).openStream()){
-            Files.copy(in, Paths.get(destFilePath + filename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        InputStream in = new URL(modURL).openStream();
+        Files.copy(in, Paths.get(destFilePath + filename));
     }
 
     /**
@@ -61,9 +59,8 @@ public class Downloader {
      * @throws IOException Thrown if errors occurs when sending GET request
      */
     private String getFileName(String projectFileURL) throws IOException {
-        //Get HTML of the mod version's project page
+        //Get HTML of the mod version's project page and return the part with the file name
         Document doc = Jsoup.connect(projectFileURL).headers(HEADERS).get();
-        //Select the class containing the file name and return it
         return doc.select("h3[class=\"text-primary-500 text-lg\"]").first().text();
     }
 }
