@@ -20,6 +20,7 @@ public final class Converter {
                originalURL.substring(fileIDStart, fileIDStart + 4) +
                '/' +
                originalURL.substring(fileIDStart + 4) +
-               '/' + filename;
+               '/' +
+               filename;
     }
 }
