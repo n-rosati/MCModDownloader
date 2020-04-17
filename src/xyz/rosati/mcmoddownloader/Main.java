@@ -22,7 +22,7 @@ public class Main {
             }
 
             try {
-                modManager.download(input);
+                modManager.get(input);
             } catch (Exception e) {
                 System.out.println("Error downloading that mod.\n" + e.toString());
                 continue;

@@ -45,11 +45,11 @@ class ModManager {
      * @param fileURL The CurseForge file URL. Example:<br><code>https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567</code>
      * @throws Exception Exception thrown when an error occurs in the download process.
      */
-    void download (String fileURL) throws Exception{
+    void get(String fileURL) throws Exception{
         try {
-            this.downloader.download(fileURL, this.destLocation);
+            this.downloader.download(fileURL, getDestLocation());
         } catch (Exception de) {
-            throw new Exception("Error downloading from ForgeCDN.\n" + de);
+            throw new Exception("Error downloading.\n" + de);
         }
     }
 
@@ -59,5 +59,9 @@ class ModManager {
      */
     void setDestLocation(String destLocation) {
         this.destLocation = destLocation;
+    }
+
+    String getDestLocation() {
+        return this.destLocation;
     }
 }

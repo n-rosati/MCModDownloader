@@ -11,10 +11,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-public class Downloader {
+class Downloader {
     private static final HashMap<String, String> HEADERS = new HashMap<>();
 
-    public Downloader() {
+    Downloader() {
         //Put the header information into a HashMap for use when connecting to CurseForge
         HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         HEADERS.put("Accept-Language", "en-US,en;q=0.5");
@@ -25,26 +25,22 @@ public class Downloader {
 
     /**
      * Downloads a mod from CurseForge
-     * @param projectFileURL The URL to a version of a mod.<br>Example: https://curseforge.com/minecraft/mc-mods/[mod name]/[files]/[file id]
+     * @param projectFileURL The URL to a version of a mod. Example:<br><code>https://curseforge.com/minecraft/mc-mods/[mod name]/[files]/[file id]</code>
      * @param destFilePath The path to where the mod file will be stored.
-     * @throws Exception Thrown if invalid URL.
-     * @throws IOException Thrown if network error when downloading the mod.
+     * @throws Exception If invalid URL.
+     * @throws IOException If network error when downloading the mod.
      */
-    public void download(String projectFileURL, String destFilePath) throws Exception, IOException {
-        if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL was given."); }
-        //TODO: Validate the given path
-        if (!destFilePath.endsWith("/")) { destFilePath += ("/"); }
+    void download(String projectFileURL, String destFilePath) throws Exception, IOException {
+        if (!validateProjectFileURL(projectFileURL)) { throw new Exception("Invalid URL given."); }
 
         String filename = getFileName(projectFileURL);
-        String modURL = Converter.toFCDN(projectFileURL, filename);
-
-        InputStream in = new URL(modURL).openStream();
-        Files.copy(in, Paths.get(destFilePath + filename));
+        InputStream in = new URL(Converter.toFCDN(projectFileURL, filename)).openStream();
+        Files.copy(in, Paths.get(destFilePath, filename));
     }
 
     /**
      * Ensures the given project file URL is valid
-     * @param url A URL that points to a version of a mod.<br>Example: https://curseforge.com/minecraft/mc-mods/[mod name]/[files]/[file id]
+     * @param url A URL that points to a version of a mod. Example:<br><code>https://curseforge.com/minecraft/mc-mods/[mod name]/[files]/[file id]</code>
      * @return True if valid, false if invalid
      */
     private boolean validateProjectFileURL(String url) {
@@ -59,7 +55,6 @@ public class Downloader {
      */
     private String getFileName(String projectFileURL) throws IOException {
         //Get HTML of the mod version's project page and return the part with the file name
-        Document doc = Jsoup.connect(projectFileURL).headers(HEADERS).get();
-        return doc.select("h3[class=\"text-primary-500 text-lg\"]").first().text();
+        return Jsoup.connect(projectFileURL).headers(HEADERS).get().select("h3[class=\"text-primary-500 text-lg\"]").first().text();
     }
 }
