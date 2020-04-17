@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class Downloader {
-    private static HashMap<String, String> HEADERS = new HashMap<>();
-
+    private static final HashMap<String, String> HEADERS = new HashMap<>();
 
     public Downloader() {
         //Put the header information into a HashMap for use when connecting to CurseForge

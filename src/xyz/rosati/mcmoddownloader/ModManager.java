@@ -1,22 +1,53 @@
 package xyz.rosati.mcmoddownloader;
 
-public class ModManager {
-    private Downloader downloader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+class ModManager {
+    private final Downloader downloader;
     private String destLocation;
 
-    public ModManager(String destination) {
+    ModManager() {
         this.downloader = new Downloader();
-        this.destLocation = destination;
+        setDestLocation(getSavePath());
+    }
+
+    /**
+     * Gets a save path from the user.
+     * @return A path to where the files should be stored.
+     */
+    private String getSavePath() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the save location: ");
+        String path = sc.next();
+
+        if (!Files.isDirectory(Paths.get(path))) {
+            //TODO: Make a more elegant solution
+            System.out.print("That path was invalid. Do you want to create it? (Answering anything other than (y)es will end the program.): ");
+
+            if (sc.next().equals("y")) {
+                try {
+                    Files.createDirectory(Paths.get(path));
+                } catch (IOException ioException) {
+                    System.out.println("Failed to create directory. Exiting with code (6D6B6 46972).");
+                    System.exit(1);
+                }
+            }
+        }
+        return path;
     }
 
     /**
      * Downloads a mod from the specified file URL on CurseForge.
-     * @param projectFileURL The CurseForge file URL. Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567
+     * @param fileURL The CurseForge file URL. Example:<br><code>https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567</code>
      * @throws Exception Exception thrown when an error occurs in the download process.
      */
-    public void download (String projectFileURL) throws Exception{
+    void download (String fileURL) throws Exception{
         try {
-            this.downloader.download(projectFileURL, this.destLocation);
+            this.downloader.download(fileURL, this.destLocation);
         } catch (Exception de) {
             throw new Exception("Error downloading from ForgeCDN.\n" + de);
         }
@@ -26,7 +57,7 @@ public class ModManager {
      * Sets the download location.
      * @param destLocation Path to the desired download location
      */
-    public void setDestLocation(String destLocation) {
+    void setDestLocation(String destLocation) {
         this.destLocation = destLocation;
     }
 }

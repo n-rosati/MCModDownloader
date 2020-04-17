@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the destination for the mods: ");
-        ModManager modManager = new ModManager(sc.next());
-
-        System.out.println("This tool uses the file page of a CurseForge project.\n" +
+        System.out.println("This tool downloads a file pointed to by a CurseForge file URL.\n" +
                                    "Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567.\n" +
                                    "Enter `stop` to stop downloading mods.");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the destination for the mods: ");
+        ModManager modManager = new ModManager();
 
         String input;
         do {
