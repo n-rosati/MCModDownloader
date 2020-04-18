@@ -1,14 +1,9 @@
 package xyz.rosati.mcmoddownloader;
 
-import io.github.bonigarcia.wdm.ChromiumDriverManager;
-import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
@@ -17,23 +12,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 class Downloader {
-    private static final HashMap<String, String> HEADERS = new HashMap<>();
-
-    Downloader() {
-        //Put the header information into a HashMap for use when connecting to CurseForge
-        HEADERS.put("Host", "www.curseforge.com");
-        HEADERS.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
-        HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        HEADERS.put("Accept-Language", "en-US,en;q=0.5");
-        HEADERS.put("Accept-Encoding", "gzip, deflate, br");
-        HEADERS.put("Pragma", "no-cache");
-        HEADERS.put("Cache-Control", "no-cache");
-    }
+    Downloader() {}
 
     /**
      * Downloads a mod from CurseForge
@@ -64,6 +46,7 @@ class Downloader {
      * @param projectFileURL A URL pointing to a specific version of a mod
      * @return A string to the file name associated with the given project mod version
      */
+    //TODO: Try and make this process more transparent to the user.
     private String getFileName(String projectFileURL) {
         //Set up a Chrome window and turn off logging
         WebDriverManager.chromiumdriver().setup();
