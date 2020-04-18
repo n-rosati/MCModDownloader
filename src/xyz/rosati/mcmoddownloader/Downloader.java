@@ -1,7 +1,10 @@
 package xyz.rosati.mcmoddownloader;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,16 +15,7 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 class Downloader {
-    private static final HashMap<String, String> HEADERS = new HashMap<>();
-
-    Downloader() {
-        //Put the header information into a HashMap for use when connecting to CurseForge
-        HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        HEADERS.put("Accept-Language", "en-US,en;q=0.5");
-        HEADERS.put("Accept-Encoding", "gzip, deflate, br");
-        HEADERS.put("Pragma", "no-cache");
-        HEADERS.put("Cache-Control", "no-cache");
-    }
+    Downloader() {}
 
     /**
      * Downloads a mod from CurseForge
@@ -51,10 +45,19 @@ class Downloader {
      * Gets the file name for a given CurseForge project file URL
      * @param projectFileURL A URL pointing to a specific version of a mod
      * @return A string to the file name associated with the given project mod version
-     * @throws IOException Thrown if errors occurs when sending GET request
      */
-    private String getFileName(String projectFileURL) throws IOException {
-        //Get HTML of the mod version's project page and return the part with the file name
-        return Jsoup.connect(projectFileURL).headers(HEADERS).get().select("h3[class=\"text-primary-500 text-lg\"]").first().text();
+    //TODO: Try and make this process more transparent to the user.
+    private String getFileName(String projectFileURL) {
+        //Set up a Chrome window and turn off logging
+        WebDriverManager.chromiumdriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        //Open Chrome and get the file name on the page
+        driver.get(projectFileURL);
+        Document doc = Jsoup.parse(driver.getPageSource());
+        driver.close();
+        driver.quit();
+
+        return doc.getElementsByClass("text-primary-500 text-lg").first().text();
     }
 }

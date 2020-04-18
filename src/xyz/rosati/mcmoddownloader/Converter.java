@@ -1,7 +1,5 @@
 package xyz.rosati.mcmoddownloader;
 
-import java.util.regex.Pattern;
-
 public final class Converter {
     private Converter() {}
 

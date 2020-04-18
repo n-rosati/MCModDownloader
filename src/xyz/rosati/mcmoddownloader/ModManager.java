@@ -11,21 +11,20 @@ class ModManager {
 
     ModManager() {
         this.downloader = new Downloader();
-        setDestLocation(getSavePath());
+        setSavePath(getSavePathFromUser());
     }
 
     /**
      * Gets a save path from the user.
      * @return A path to where the files should be stored.
      */
-    private String getSavePath() {
+    private String getSavePathFromUser() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter the save location: ");
         String path = sc.next();
-
         if (!Files.isDirectory(Paths.get(path))) {
-            //TODO: Make a more elegant solution
+            //TODO: Make a more robust solution
             System.out.print("That path was invalid. Do you want to create it? (Answering anything other than (y)es will end the program.): ");
 
             if (sc.next().equals("y")) {
@@ -45,9 +44,9 @@ class ModManager {
      * @param fileURL The CurseForge file URL. Example:<br><code>https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567</code>
      * @throws Exception Exception thrown when an error occurs in the download process.
      */
-    void get(String fileURL) throws Exception{
+    void get(String fileURL) throws Exception {
         try {
-            this.downloader.download(fileURL, getDestLocation());
+            this.downloader.download(fileURL, getSavePath());
         } catch (Exception de) {
             throw new Exception("Error downloading.\n" + de);
         }
@@ -57,11 +56,15 @@ class ModManager {
      * Sets the download location.
      * @param destLocation Path to the desired download location
      */
-    void setDestLocation(String destLocation) {
+    void setSavePath(String destLocation) {
         this.destLocation = destLocation;
     }
 
-    String getDestLocation() {
+    /**
+     * Gets the user specified save location.
+     * @return Path to save location as a string
+     */
+    String getSavePath() {
         return this.destLocation;
     }
 }

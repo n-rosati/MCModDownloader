@@ -1,18 +1,30 @@
 package xyz.rosati.mcmoddownloader;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.Scanner;
 
 public class Main {
+
+    public static final Logger LOGGER = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) {
+        //Disable logging
+        LOGGER.setLevel(Level.OFF);
+        LogManager.getLogger("io.github.bonigarcia").setLevel(Level.OFF);
+        LogManager.getLogger("org.apache").setLevel(Level.OFF);
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+
         System.out.println("This tool downloads a file pointed to by a CurseForge file URL.\n" +
                                    "Example: https://www.curseforge.com/minecraft/mc-mods/example-mod/files/1234567.\n" +
                                    "Enter `stop` to stop downloading mods.");
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the destination for the mods: ");
         ModManager modManager = new ModManager();
 
         String input;
+        Scanner sc = new Scanner(System.in);
         do {
             System.out.print("> ");
             input = sc.next();
@@ -24,7 +36,7 @@ public class Main {
             try {
                 modManager.get(input);
             } catch (Exception e) {
-                System.out.println("Error downloading that mod.\n" + e.toString());
+                System.out.println("Error downloading mod.\n" + e.toString());
                 continue;
             }
 
