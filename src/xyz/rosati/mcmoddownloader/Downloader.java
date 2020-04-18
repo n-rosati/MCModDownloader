@@ -1,7 +1,15 @@
 package xyz.rosati.mcmoddownloader;
 
+import io.github.bonigarcia.wdm.ChromiumDriverManager;
+import io.github.bonigarcia.wdm.PhantomJsDriverManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +17,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 class Downloader {
@@ -16,7 +26,9 @@ class Downloader {
 
     Downloader() {
         //Put the header information into a HashMap for use when connecting to CurseForge
-        HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        HEADERS.put("Host", "www.curseforge.com");
+        HEADERS.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0");
+        HEADERS.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         HEADERS.put("Accept-Language", "en-US,en;q=0.5");
         HEADERS.put("Accept-Encoding", "gzip, deflate, br");
         HEADERS.put("Pragma", "no-cache");
@@ -51,10 +63,18 @@ class Downloader {
      * Gets the file name for a given CurseForge project file URL
      * @param projectFileURL A URL pointing to a specific version of a mod
      * @return A string to the file name associated with the given project mod version
-     * @throws IOException Thrown if errors occurs when sending GET request
      */
-    private String getFileName(String projectFileURL) throws IOException {
-        //Get HTML of the mod version's project page and return the part with the file name
-        return Jsoup.connect(projectFileURL).headers(HEADERS).get().select("h3[class=\"text-primary-500 text-lg\"]").first().text();
+    private String getFileName(String projectFileURL) {
+        //Set up a Chrome window and turn off logging
+        WebDriverManager.chromiumdriver().setup();
+        WebDriver driver = new ChromeDriver();
+
+        //Open Chrome and get the file name on the page
+        driver.get(projectFileURL);
+        Document doc = Jsoup.parse(driver.getPageSource());
+        driver.close();
+        driver.quit();
+
+        return doc.getElementsByClass("text-primary-500 text-lg").first().text();
     }
 }

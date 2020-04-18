@@ -23,7 +23,6 @@ class ModManager {
 
         System.out.print("Enter the save location: ");
         String path = sc.next();
-
         if (!Files.isDirectory(Paths.get(path))) {
             //TODO: Make a more elegant solution
             System.out.print("That path was invalid. Do you want to create it? (Answering anything other than (y)es will end the program.): ");
